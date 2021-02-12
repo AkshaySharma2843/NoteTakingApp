@@ -20,9 +20,15 @@ class NotesViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void bind(Post notes) {
+    public void bind(Post notes, PostClickListener postClickListener) {
         title.setText(notes.getTitle());
         description.setText(notes.getDescription());
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postClickListener.clickedPost(notes.getId());
+            }
+        });
 
     }
 }

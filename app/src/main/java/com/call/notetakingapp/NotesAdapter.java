@@ -10,9 +10,11 @@ import java.util.ArrayList;
 
 class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     ArrayList<Post> post;
+    PostClickListener postClickListener;
 
-    public NotesAdapter(ArrayList<Post> post) {
+    public NotesAdapter(ArrayList<Post> post, PostClickListener postClickListener) {
         this.post = post;
+        this.postClickListener = postClickListener;
     }
 
     @NonNull
@@ -24,7 +26,7 @@ class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
         Post notes = post.get(position);
-        holder.bind(notes);
+        holder.bind(notes,postClickListener);
 
 
     }
@@ -32,5 +34,11 @@ class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     @Override
     public int getItemCount() {
         return post.size();
+    }
+
+    public void setNewData(ArrayList<Post> post){
+        this.post.clear();
+        this.post = post;
+        notifyDataSetChanged();
     }
 }

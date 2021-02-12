@@ -23,9 +23,11 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
     Button cancel;
     PostsDatabase postsDatabase;
     PostDao postDao;
+    DataRefreshListener dataRefreshListener;
 
-    public CustomDialog(@NonNull Context context) {
+    public CustomDialog( @NonNull Context context, DataRefreshListener dataRefreshListener) {
         super(context);
+        this.dataRefreshListener = dataRefreshListener;
     }
 
     @Override
@@ -82,7 +84,6 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                Toast.makeText(getContext(), "Post Is Being Saved", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -94,7 +95,8 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(getContext(), "Post Saved", Toast.LENGTH_SHORT).show();
+                dataRefreshListener.onDataRefresh();
+                dismiss();
             }
         }
         SavePost savePost = new SavePost();
